@@ -3,10 +3,14 @@
 > A curated collection of awesome use cases, prompts, workflows, and resources for [Clawdbot](https://github.com/clawdbot/clawdbot) — your AI-powered personal assistant that connects Claude to everything.
 
 <p align="center">
+  <img src="https://docs.clawd.bot/assets/clawdbot-logo.png" alt="Clawdbot Logo" width="200">
+</p>
+
+<p align="center">
   <a href="#use-cases">Use Cases</a> •
-  <a href="#tutorials">Tutorials</a> •
   <a href="#workflows">Workflows</a> •
   <a href="#prompts">Prompts</a> •
+  <a href="#integrations">Integrations</a> •
   <a href="#contributing">Contributing</a>
 </p>
 
@@ -15,13 +19,11 @@
 ## Contents
 
 - [What is Clawdbot?](#what-is-clawdbot)
-- [Tutorials](#tutorials)
-  - [🎯 Complete Tutorial: Automated Jira Metrics Dashboard](#-complete-tutorial-automated-jira-metrics-dashboard)
 - [Use Cases](#use-cases)
-  - [Engineering Metrics & Reports](#engineering-metrics--reports)
   - [Legal & Compliance Documents](#legal--compliance-documents)
   - [Code Review & Development](#code-review--development)
   - [Documentation Generation](#documentation-generation)
+  - [Data Analysis & Reports](#data-analysis--reports)
   - [Automation & Scheduling](#automation--scheduling)
 - [Workflows](#workflows)
 - [Prompts](#prompts)
@@ -29,15 +31,16 @@
 - [Tips & Best Practices](#tips--best-practices)
 - [Contributing](#contributing)
 - [Community](#community)
+- [License](#license)
 
 ---
 
 ## What is Clawdbot?
 
-Clawdbot is an open-source AI assistant framework that connects Claude (Anthropic's AI) to your tools, files, and services. It runs locally and supports multiple channels, integrations, and automation capabilities.
+Clawdbot is an open-source AI assistant framework that connects Claude (Anthropic's AI) to your tools, files, and services. It runs locally and supports multiple channels (Slack, Discord, Telegram, WhatsApp, Signal), integrations (GitHub, Jira, Notion), and automation capabilities.
 
 **Key Features:**
-- 🔌 Multi-channel messaging (Slack, Discord, Telegram, WhatsApp, Signal)
+- 🔌 Multi-channel messaging (Slack, Discord, Telegram, etc.)
 - 🛠️ Tool integration (GitHub, Jira, Notion, Calendar)
 - 🌐 Browser automation
 - ⏰ Cron jobs and scheduled tasks
@@ -48,451 +51,58 @@ Clawdbot is an open-source AI assistant framework that connects Claude (Anthropi
 
 ---
 
-## Tutorials
-
-### 🎯 Complete Tutorial: Automated Jira Metrics Dashboard
-
-**Build an automated engineering metrics system that delivers daily reports to Slack with zero manual effort.**
-
-This tutorial walks you through creating a complete metrics automation like we use for our engineering squads. By the end, you'll have:
-
-- Automated daily/weekly reports delivered to Slack
-- Key engineering metrics (Throughput, Lead Time, Cycle Time, P75)
-- Energy investment tracking (Value vs Tech Debt vs Toil)
-- Proactive alerts for items exceeding cycle time thresholds
-- Business days calculation (excludes weekends)
-
----
-
-#### 🎯 Objective
-
-Create an automated system that:
-1. Fetches data from Jira API
-2. Calculates engineering metrics
-3. Formats a professional report
-4. Delivers to a Slack channel on schedule
-5. Alerts about items taking too long
-
----
-
-#### ✅ Advantages
-
-| Benefit | Description |
-|---------|-------------|
-| **Zero Manual Work** | Reports generate and deliver automatically |
-| **Data-Driven Decisions** | See trends, not just snapshots |
-| **Predictability** | P75 percentiles tell you what to promise stakeholders |
-| **Early Warning System** | Know when items are stuck before standup |
-| **Energy Visibility** | See if you're building value or fighting fires |
-| **Business Days** | Accurate cycle times excluding weekends |
-
----
-
-#### 📋 Prerequisites
-
-- Clawdbot installed and running
-- Slack channel configured in Clawdbot
-- Jira account with API access
-- Python 3.x available
-
----
-
-#### 🔧 Step 1: Get Your Jira API Token
-
-1. Go to [Atlassian API Tokens](https://id.atlassian.com/manage-profile/security/api-tokens)
-2. Click "Create API token"
-3. Name it (e.g., "Clawdbot Metrics")
-4. Copy the token (you won't see it again!)
-
-**What you need:**
-```
-JIRA_URL: https://your-company.atlassian.net
-EMAIL: your-email@company.com
-TOKEN: your-api-token-here
-BOARD_ID: 123  (find in your board URL)
-PROJECT_KEY: PROJ  (your project key)
-```
-
----
-
-#### 🔧 Step 2: Create the Metrics Script
-
-Ask Clawdbot to create the script:
-
-```markdown
-Create a Python script that:
-
-1. Connects to Jira API at [YOUR_JIRA_URL]
-2. Fetches issues from board ID [YOUR_BOARD_ID]
-3. Calculates these metrics for the last 3 months, grouped by month:
-   - Throughput (items completed per week)
-   - Average Lead Time (created → done, in business days)
-   - Average Cycle Time (in progress → done, in business days)
-   - P75 Lead Time and P75 Cycle Time
-4. Separately tracks Issue type metrics (bugs)
-5. Calculates energy investment:
-   - Value: Stories with Epic (direct user value)
-   - Tech: Housekeeping tasks
-   - Toil: Bug fixes and maintenance
-6. Finds in-progress items exceeding P75 cycle time
-7. Outputs a formatted report for Slack
-
-Use these credentials:
-- Email: [YOUR_EMAIL]
-- API Token: [YOUR_TOKEN]
-
-Valid issue types: História, Issue, Task, Toil
-In-progress statuses: Doing, Review, Refining, Blocked
-
-Save to: scripts/jira_metrics.py
-Accept board key as command line argument (e.g., PROJ)
-```
-
-**What Clawdbot Creates:**
-
-A script that:
-- Uses only Python standard library (no pip install needed)
-- Handles pagination for large boards
-- Calculates business days (excludes weekends)
-- Classifies items by epic name patterns
-- Formats output for Slack markdown
-
----
-
-#### 🔧 Step 3: Test the Script
-
-```bash
-python3 scripts/jira_metrics.py PROJ
-```
-
-**Expected Output:**
-
-```
-Squad Name (PROJ)
-`Data: 30/01/2025 17:45 (business days)`
-
-Metrics (Story, Issue, Task, Toil)
-```
-| Month    | Thrput/wk | AVG LT | AVG CT | P75 LT | P75 CT |
-|----------|-----------|--------|--------|--------|--------|
-| 2024-11  | 6.8       | 21.4d  | 3.1d   | 9d     | 4d     |
-| 2024-12  | 6.8       | 10.8d  | 5.8d   | 14d    | 10d    |
-| 2025-01  | 5.5       | 12.0d  | 5.4d   | 14d    | 8d     |
-|----------|-----------|--------|--------|--------|--------|
-| AVERAGE  | 6.3       | 14.9d  | 4.8d   | 14d    | 8d     |
-```
-
-Metrics (Issues)                                    Investment (%)
-```
-| Month   | Thrput/wk | P75 LT |    |  Month   | Value% | Tech% | Toil% |
-|---------|-----------|--------|    |----------|--------|-------|-------|
-| 2024-11 | 1.2       | 4d     |    | 2024-11  | 33.3%  | 40.7% | 25.9% |
-| 2024-12 | 1.2       | 2d     |    | 2024-12  | 51.9%  | 25.9% | 22.2% |
-| 2025-01 | 1.2       | 3d     |    | 2025-01  | 50.0%  | 18.2% | 31.8% |
-```
-
-> _The team can work on `6.3 items/week` in parallel and deliver in `8d` with 75% confidence_
-
-⚡ Items exceeding P75 Cycle Time (8d):
-🚨 `PROJ-123` [Doing] - 18d (225% of P75) - Feature implementation
-🚨 `PROJ-456` [Review] - 12d (150% of P75) - Bug fix
-
----
-
-#### 🔧 Step 4: Create the Slack Channel
-
-1. Create a dedicated Slack channel (e.g., `#squad-metrics`)
-2. Get the channel ID:
-   - Open Slack in browser
-   - Go to your channel
-   - Channel ID is in the URL: `slack.com/.../**C0XXXXXXXX**`
-
----
-
-#### 🔧 Step 5: Configure the Cron Job
-
-Ask Clawdbot to set up the scheduled job:
-
-```markdown
-Create a cron job with these settings:
-
-Name: jira-proj-metrics
-Schedule: Every weekday at 9:00 AM (America/Sao_Paulo timezone)
-Target Channel: #squad-metrics (channel ID: C0XXXXXXXX)
-
-Task: Execute the script and send output to Slack:
-python3 /path/to/scripts/jira_metrics.py PROJ
-
-Send the output exactly as returned, without modifications.
-```
-
-**What Clawdbot Configures:**
-
-```yaml
-name: jira-proj-metrics
-schedule:
-  kind: cron
-  expr: "0 9 * * 1-5"  # 9 AM, Monday-Friday
-  tz: "America/Sao_Paulo"
-sessionTarget: isolated
-payload:
-  kind: agentTurn
-  message: "Execute: python3 /path/to/scripts/jira_metrics.py PROJ\n\nSend the output exactly as returned."
-  deliver: true
-  channel: slack
-  to: "channel:C0XXXXXXXX"
-```
-
----
-
-#### 🔧 Step 6: Set Up Multiple Squads (Optional)
-
-For multiple teams, create one cron job per squad:
-
-```markdown
-Create these cron jobs:
-
-1. Squad Alpha Metrics
-   - Name: jira-alpha-metrics
-   - Schedule: 9:00 AM weekdays
-   - Script: python3 scripts/jira_metrics.py ALPHA
-   - Target: #alpha-metrics (C0XXXXXXX1)
-
-2. Squad Beta Metrics
-   - Name: jira-beta-metrics
-   - Schedule: 9:00 AM weekdays
-   - Script: python3 scripts/jira_metrics.py BETA
-   - Target: #beta-metrics (C0XXXXXXX2)
-```
-
----
-
-#### 📊 Understanding the Metrics
-
-| Metric | What It Measures | Why It Matters |
-|--------|------------------|----------------|
-| **Throughput** | Items completed per week | Team capacity and velocity |
-| **Lead Time** | Backlog → Done (business days) | How long customers wait |
-| **Cycle Time** | In Progress → Done (business days) | Active work time |
-| **P75** | 75th percentile | Predictable delivery promise |
-| **Value %** | Stories linked to Epics | Direct user value delivery |
-| **Tech %** | Housekeeping/refactoring | Technical health investment |
-| **Toil %** | Bug fixes and maintenance | Firefighting indicator |
-
----
-
-#### 🚨 Understanding the Alerts
-
-The system automatically flags items that are taking too long:
-
-| Alert | Meaning | Action |
-|-------|---------|--------|
-| 🚨 **Red Alert** | >100% of P75 Cycle Time | Needs immediate attention |
-| ⚠️ **Warning** | 80-100% of P75 Cycle Time | Getting risky, check blockers |
-
-**Example:** If your P75 Cycle Time is 8 days, any item in progress for 8+ days gets a 🚨.
-
----
-
-#### 💡 Pro Tips
-
-**1. Customize Classification**
-
-Adjust how items are classified by epic name patterns:
-
-```python
-# In your script
-if 'bugfixing' in epic_name or 'bugfix' in epic_name:
-    return 'Toil'
-if 'housekeeping' in epic_name or 'tech-debt' in epic_name:
-    return 'Tech'
-if issue_type == 'Story':
-    return 'Value'
-```
-
-**2. Adjust Time Windows**
-
-Change the lookback period:
-```python
-three_months_ago = datetime.now() - timedelta(days=90)  # Adjust as needed
-```
-
-**3. Add More Statuses**
-
-If your board has different status names:
-```python
-IN_PROGRESS_STATUSES = ['Doing', 'In Review', 'Testing', 'Blocked']
-```
-
-**4. Weekly Instead of Daily**
-
-Change schedule to Mondays only:
-```yaml
-schedule:
-  expr: "0 9 * * 1"  # Monday at 9 AM
-```
-
----
-
-#### 🔄 Maintenance
-
-**Update credentials:** If your token expires, update the script and Clawdbot will use the new one automatically.
-
-**Add new boards:** Just create a new cron job with the new board key.
-
-**Disable temporarily:** Use `cron disable [job-name]` to pause without deleting.
-
----
-
-#### 📈 Real Results
-
-After implementing this system, teams typically see:
-
-- **30 min/week saved** on manual reporting
-- **Earlier detection** of stuck items
-- **Better sprint planning** with P75 data
-- **Visibility** into value vs maintenance balance
-- **Data-driven retrospectives**
-
----
-
 ## Use Cases
-
-### Engineering Metrics & Reports
-
-Automate your team's engineering metrics with Jira/GitHub integration and scheduled reports.
-
-#### Automated Sprint Metrics Dashboard
-
-Generate weekly/monthly reports with key engineering metrics delivered to Slack.
-
-**What You Can Track:**
-- Throughput (items completed per week)
-- Lead Time (backlog → done)
-- Cycle Time (in progress → done)
-- P75 percentiles for predictability
-- Energy investment breakdown (Value vs Tech Debt vs Toil)
-
-**Setup Example:**
-
-1. Create a metrics script that queries your Jira API
-2. Schedule it with Clawdbot's cron
-
-```markdown
-# Cron job configuration
-Schedule: Every Monday at 9:00 AM
-Target: #engineering-metrics (Slack)
-
-Task: Run the Jira metrics script for project [PROJECT_KEY] and send the formatted report.
-```
-
-**Sample Output:**
-
-```
-📊 Squad Engineering Metrics
-Data: 2025-01-30 (business days)
-
-Metrics (Story, Issue, Task, Toil)
-| Month    | Thrput/wk | AVG LT | AVG CT | P75 LT | P75 CT |
-|----------|-----------|--------|--------|--------|--------|
-| 2024-11  | 6.8       | 21.4d  | 3.1d   | 9d     | 4d     |
-| 2024-12  | 6.8       | 10.8d  | 5.8d   | 14d    | 10d    |
-| 2025-01  | 5.5       | 12.0d  | 5.4d   | 14d    | 8d     |
-|----------|-----------|--------|--------|--------|--------|
-| AVERAGE  | 6.3       | 14.9d  | 4.8d   | 14d    | 8d     |
-
-🎯 Energy Investment:
-| Month   | Value % | Tech % | Toil % |
-|---------|---------|--------|--------|
-| 2024-11 | 33.3%   | 40.7%  | 25.9%  |
-| 2024-12 | 51.9%   | 25.9%  | 22.2%  |
-| 2025-01 | 50.0%   | 18.2%  | 31.8%  |
-
-⚡ Items exceeding P75 Cycle Time:
-🚨 PROJ-123 [Doing] - 18d (225% of P75) - Feature X implementation
-🚨 PROJ-456 [Review] - 12d (150% of P75) - Bug fix Y
-```
-
-**Key Benefits:**
-- Automatic business days calculation (excludes weekends/holidays)
-- P75 percentile tracking for predictable delivery estimates
-- Energy investment visibility (are you spending time on value or firefighting?)
-- Proactive alerts for items exceeding cycle time thresholds
-
----
-
-#### Issue Resolution Tracking
-
-Track bug resolution separately from feature work.
-
-**Prompt Template:**
-
-```markdown
-Analyze our issue resolution metrics:
-
-Project: [PROJECT_KEY]
-Time Range: Last 3 months
-
-Calculate:
-- Issue throughput per week
-- P75 Lead Time for issues
-- Trend analysis (improving/degrading)
-
-Compare against feature delivery metrics.
-```
-
----
 
 ### Legal & Compliance Documents
 
-Generate comprehensive, legally-sound documents tailored to your product.
+Generate comprehensive, legally-sound documents tailored to your product and jurisdiction.
 
 #### Privacy Policy Generator
 
-Create GDPR/LGPD/CCPA-compliant privacy policies that match your actual data practices.
+Create GDPR/LGPD-compliant privacy policies that actually match your product's data practices.
 
 **Prompt Template:**
 
 ```markdown
-I need a Privacy Policy for my SaaS product:
+I need a Privacy Policy for my SaaS product with the following details:
 
 **Product Info:**
 - Name: [Your Product Name]
 - Type: [SaaS/Mobile App/Web Platform]
-- Industry: [Engineering Tools/Healthcare/Finance/etc.]
+- Industry: [Engineering Metrics/Healthcare/Finance/etc.]
 
 **Data Collection:**
-- Authentication: [Google OAuth/Email-Password/SSO]
-- User data: [Name, Email, Profile Photo, etc.]
+- Authentication method: [Google OAuth/Email-Password/SSO]
+- User data collected: [Name, Email, Profile Photo, etc.]
 - Third-party integrations: [GitHub, Jira, Linear, etc.]
-- Data from integrations: [Commits, PRs, Issues, etc.]
+- Data collected from integrations: [Commits, PRs, Issues, etc.]
 
 **Infrastructure:**
-- Hosting: [AWS/GCP/Azure]
+- Hosting provider: [AWS/GCP/Azure]
 - Database: [PostgreSQL/MongoDB/etc.]
 - Region: [US-East/EU-West/etc.]
 
 **Compliance Requirements:**
-- Jurisdictions: [Brazil LGPD/EU GDPR/California CCPA]
+- Jurisdictions: [Brazil (LGPD)/EU (GDPR)/California (CCPA)]
 - Role: [Data Controller/Data Processor/Both]
 
-Generate a comprehensive Privacy Policy including:
-1. Clear role definitions (Controller vs Processor)
-2. All data collected with purposes and legal bases
-3. Retention periods
-4. Security measures
-5. International transfer mechanisms
-6. User rights procedures
+Please generate a comprehensive Privacy Policy that:
+1. Clearly defines roles (Controller vs Processor)
+2. Lists all data collected with purposes and legal bases
+3. Explains data retention periods
+4. Details security measures
+5. Covers international data transfers
+6. Includes all required rights (access, deletion, portability)
+7. Provides contact information templates
 ```
 
 **What You Get:**
-- Complete Privacy Policy document
+- Complete Privacy Policy (15-20 pages)
 - Data flow tables with legal bases
 - Retention schedule
 - Subprocessor list template
-- User rights request procedures
-
----
+- Security measures documentation
+- User rights procedures
 
 #### Terms of Service Generator
 
@@ -503,99 +113,110 @@ I need Terms of Service for my SaaS product:
 
 **Product Info:**
 - Name: [Your Product Name]
-- Model: [SaaS B2B/B2C/Marketplace]
-- Pricing: [Subscription/Usage-based/Freemium]
+- Service Model: [SaaS B2B/B2C/Marketplace]
+- Pricing Model: [Subscription/Usage-based/Freemium]
+
+**Key Features to Cover:**
+- [Feature 1]: [Brief description]
+- [Feature 2]: [Brief description]
+- Third-party integrations: [List them]
 
 **Business Requirements:**
-- Liability cap: [12 months fees/fixed amount]
-- SLA target: [99.5%/99.9%]
-- Support: [Email/Chat/Phone]
-- Jurisdiction: [São Paulo, Brazil/Delaware, USA]
+- Liability cap: [12 months fees / fixed amount]
+- SLA target: [99.5% / 99.9%]
+- Support channels: [Email/Chat/Phone]
+- Jurisdiction: [São Paulo, Brazil / Delaware, USA]
 
-**Clauses Needed:**
+**Special Clauses Needed:**
 - [ ] Acceptable use policy
 - [ ] API usage limits
-- [ ] Data ownership
-- [ ] IP protection
-- [ ] Indemnification
+- [ ] Data ownership clarification
+- [ ] Intellectual property protection
+- [ ] Indemnification clauses
 
-Generate comprehensive Terms of Service.
+Please generate comprehensive Terms of Service including all standard sections.
 ```
 
 ---
 
 ### Code Review & Development
 
+Leverage Clawdbot's GitHub integration for intelligent code assistance.
+
 #### Automated PR Review
 
 **Setup:**
-1. Connect GitHub via Clawdbot's GitHub skill
-2. Configure webhook or mention-based triggers
+1. Connect GitHub via Clawdbot skills
+2. Configure webhook or polling
 
 **Prompt Template:**
 
 ```markdown
-Review PR #[NUMBER] in [owner/repo]:
+Review this Pull Request:
+- Repository: [owner/repo]
+- PR Number: [#123]
 
 Focus on:
 - [ ] Security vulnerabilities
 - [ ] Performance implications
 - [ ] Code style consistency
 - [ ] Test coverage
-- [ ] Documentation needs
+- [ ] Documentation updates needed
 
 Provide actionable feedback with code suggestions.
 ```
 
----
-
-#### Architecture Decision Records
+#### Architecture Decision Records (ADR)
 
 **Prompt Template:**
 
 ```markdown
-Create an ADR for:
+Create an Architecture Decision Record for:
 
 **Context:**
-[Current situation and why a decision is needed]
+[Describe the current situation and why a decision is needed]
 
 **Decision Drivers:**
 - [Driver 1]
 - [Driver 2]
 
-**Options:**
+**Options Considered:**
 1. [Option A]
 2. [Option B]
 3. [Option C]
 
 **Constraints:**
 - Timeline: [X weeks]
+- Budget: [If applicable]
 - Team expertise: [Relevant skills]
 
-Generate ADR in Michael Nygard format.
+Generate a complete ADR following the Michael Nygard format.
 ```
 
 ---
 
 ### Documentation Generation
 
+Create and maintain comprehensive documentation automatically.
+
 #### API Documentation
 
 **Prompt Template:**
 
 ```markdown
-Generate API docs for my endpoints:
+Generate API documentation for my REST endpoints:
 
-Base URL: https://api.example.com/v1
-Auth: Bearer token (JWT)
+**Base URL:** https://api.example.com/v1
 
-Endpoints:
+**Authentication:** Bearer token (JWT)
+
+**Endpoints to document:**
 1. POST /users - Create user
-2. GET /users/{id} - Get user
+2. GET /users/{id} - Get user by ID
 3. PUT /users/{id} - Update user
 4. DELETE /users/{id} - Delete user
 
-Include for each:
+For each endpoint, include:
 - Description
 - Request/Response examples
 - Error codes
@@ -605,37 +226,120 @@ Include for each:
 Use OpenAPI 3.0 format.
 ```
 
----
+#### README Generator
 
-### Automation & Scheduling
+**Prompt Template:**
 
-#### Daily Standup Generator
+```markdown
+Create a README.md for my project:
 
-**Cron Setup:**
+**Project Info:**
+- Name: [Project Name]
+- Language: [Python/TypeScript/Go/etc.]
+- Type: [CLI Tool/Library/Web App]
+- License: [MIT/Apache-2.0/etc.]
 
-```yaml
-schedule: "0 9 * * 1-5"  # 9 AM, Monday-Friday
-target: #team-standup
-task: |
-  Check Jira for my in-progress tickets.
-  Generate standup update:
-  - Completed yesterday
-  - Working on today
-  - Blockers
+**Key Features:**
+- [Feature 1]
+- [Feature 2]
+- [Feature 3]
+
+**Installation Methods:**
+- npm/pip/brew/docker
+
+**Include:**
+- Badges (build status, coverage, version)
+- Quick start guide
+- Configuration options
+- Contributing guidelines link
+- Changelog link
 ```
 
 ---
 
-#### Heartbeat Monitoring
+### Data Analysis & Reports
 
-Use `HEARTBEAT.md` for periodic checks:
+#### Engineering Metrics Dashboard (Jira)
+
+The simplest way to get engineering metrics. Just ask.
+
+**Step 1:** Add your Jira credentials to `TOOLS.md`:
+
+```markdown
+## Jira
+
+- **Instance:** https://YOUR-INSTANCE.atlassian.net
+- **Email:** your-email@company.com
+- **API Token:** your-api-token (get it at https://id.atlassian.com/manage-profile/security/api-tokens)
+- **Project:** YOUR_PROJECT_KEY
+- **Board ID:** 123
+```
+
+**Step 2:** Copy, paste, customize:
+
+```
+Connect to my Jira (credentials in TOOLS.md) and give me the engineering metrics for project [PROJECT_KEY] from the last [7/14/30] days.
+
+Include: cycle time, lead time, throughput, bugs vs features ratio, and WIP.
+
+Language: [English/Portuguese/Spanish]
+```
+
+That's it. Clawdbot handles the API calls, calculations, and formatting automatically.
+
+**Example Output:**
+- 📊 Cycle Time: 3.2 days (median)
+- 🚀 Throughput: 12 stories/week
+- 🐛 Bug ratio: 18% of completed items
+- ⏱️ Lead Time: 5.1 days
+- 📋 WIP: 8 items in progress
+
+---
+
+#### Weekly Status Report
+
+```
+Generate a weekly status report for my team.
+
+Check:
+- Jira board [BOARD_ID]: completed, in progress, blocked
+- GitHub repos: [owner/repo1, owner/repo2]
+
+Period: last 7 days
+Language: [English/Portuguese]
+```
+
+---
+
+### Automation & Scheduling
+
+Leverage Clawdbot's cron capabilities for scheduled tasks.
+
+#### Daily Standup Reminder
+
+**Cron Setup:**
+
+```yaml
+# In your Clawdbot config or via cron tool
+schedule: "0 9 * * 1-5"  # 9 AM, Monday-Friday
+task: |
+  Check Jira for my in-progress tickets and yesterday's completions.
+  Send a formatted standup update to #team-standup channel:
+  - What I completed yesterday
+  - What I'm working on today
+  - Any blockers
+```
+
+#### Inbox Zero Assistant
+
+**Heartbeat Task:**
 
 ```markdown
 # HEARTBEAT.md
-- Check unread emails (last 2 hours)
-- Summarize urgent items
-- Check calendar for upcoming meetings
-- Flag items needing attention
+- Check for urgent unread emails (last 2 hours)
+- Summarize any requiring immediate attention
+- Draft quick replies for simple requests
+- Flag items needing deep focus time
 ```
 
 ---
@@ -644,76 +348,95 @@ Use `HEARTBEAT.md` for periodic checks:
 
 ### Multi-Step Document Generation
 
-```
-User Request → Gather Context → Generate Draft → Review & Iterate → Export → Save to Git/Notion
+```mermaid
+graph LR
+    A[User Request] --> B[Gather Context]
+    B --> C[Generate Draft]
+    C --> D[Review & Iterate]
+    D --> E[Export Final]
+    E --> F[Save to Git/Notion]
 ```
 
-### Scheduled Compliance Audit
+### Automated Compliance Audit
 
 1. **Trigger**: Monthly cron job
-2. **Scan**: Check data flows against policy
+2. **Scan**: Check all data flows against policy
 3. **Report**: Generate compliance checklist
-4. **Alert**: Notify team of gaps
-5. **Track**: Update dashboard
+4. **Alert**: Notify team of any gaps
+5. **Track**: Update compliance dashboard
 
 ---
 
 ## Prompts
 
-### Quick Reference
+### Quick Prompts Collection
 
 | Task | Prompt |
 |------|--------|
-| Summarize meeting | "Summarize key decisions and action items from [notes]" |
-| Explain code | "Explain this code for a junior developer: [code]" |
-| Debug | "Debug this error: [error]. Code: [code]" |
-| Draft email | "Draft email to [recipient] about [topic]. Tone: [formal/friendly]" |
-| Commit message | "Write conventional commit for: [changes]" |
+| Summarize meeting | "Summarize the key decisions and action items from [meeting notes]" |
+| Code explanation | "Explain this code like I'm a junior developer: [code]" |
+| Bug investigation | "Help me debug this error: [error message]. Here's the relevant code: [code]" |
+| Email drafting | "Draft a professional email to [recipient] about [topic]. Tone: [formal/friendly]" |
+| Commit message | "Write a conventional commit message for these changes: [diff summary]" |
 
 ---
 
 ## Integrations
 
-### Recommended Combinations
+### Recommended Skill Combinations
 
-| Use Case | Skills |
-|----------|--------|
-| DevOps | GitHub + Jira + Slack |
+| Use Case | Skills Needed |
+|----------|---------------|
+| Full DevOps | GitHub + Jira + Slack |
 | Documentation | Notion + GitHub |
 | Personal Assistant | Calendar + Email + Weather |
 | Team Management | Slack + Jira + GitHub |
+
+### Custom Skill Development
+
+Create your own skills following the [Skill Creator Guide](https://docs.clawd.bot/skills/creating-skills).
 
 ---
 
 ## Tips & Best Practices
 
-### 1. Be Specific
+### 1. Be Specific with Context
 
-❌ "Generate metrics report"
+❌ "Write me a privacy policy"
 
-✅ "Generate Jira metrics for project PROJ, last 3 months, calculate throughput, lead time, cycle time with P75 percentiles, group by month, use business days only"
+✅ "Write a privacy policy for a B2B SaaS that collects user emails via Google OAuth, stores data in AWS US-East, and needs LGPD compliance"
 
-### 2. Use Memory
+### 2. Use Memory Effectively
 
 - Store project context in `MEMORY.md`
 - Keep daily notes in `memory/YYYY-MM-DD.md`
-- Reference previous work: "Using the same format as before..."
+- Reference previous work: "Using the same format as the ToS we created..."
 
-### 3. Chain Tasks
+### 3. Leverage File Operations
 
 ```markdown
-Let's do this step by step:
-1. First, read our current documentation
-2. Then, scan codebase for new endpoints
-3. Generate docs for undocumented endpoints
-4. Create a PR with updates
+Read the existing document at ./docs/privacy.md and update it to:
+1. Add a new data type we're collecting: [type]
+2. Update the retention period for [category] to [X days]
+3. Add [New Subprocessor] to the subprocessor list
 ```
 
-### 4. Request Structured Output
+### 4. Chain Complex Tasks
 
-- "Output as markdown table"
-- "Use JSON format"
-- "Create Mermaid diagram"
+```markdown
+Let's do this in steps:
+1. First, read our current API documentation
+2. Then, scan our codebase for new endpoints
+3. Generate documentation for any undocumented endpoints
+4. Create a PR with the updates
+```
+
+### 5. Use Structured Output
+
+Request specific formats when needed:
+- "Output as a markdown table"
+- "Use JSON format for the config"
+- "Create a Mermaid diagram"
 
 ---
 
@@ -725,27 +448,26 @@ We love contributions! This list is community-driven.
 
 1. **Fork** this repository
 2. **Add** your use case, prompt, or workflow
-3. **Follow** the existing format
+3. **Follow** the format of existing entries
 4. **Submit** a Pull Request
 
 ### Contribution Guidelines
 
-- One item per PR (unless closely related)
-- Include real examples (sanitized of personal data)
-- Test your prompts before submitting
-- Use English for all contributions
-
-### Format Template
+- **One item per PR** (unless closely related)
+- **Include a real example** when possible (sanitized of personal data)
+- **Test your prompts** with Clawdbot before submitting
+- **Use English** for all contributions
+- **Follow the format**:
 
 ```markdown
 #### Your Use Case Title
 
-Brief description.
+Brief description of what this achieves.
 
 **Prompt Template:**
 
 \`\`\`markdown
-Your prompt with [PLACEHOLDERS]
+Your prompt here with [PLACEHOLDERS] for customization
 \`\`\`
 
 **What You Get:**
@@ -753,22 +475,38 @@ Your prompt with [PLACEHOLDERS]
 - Expected output 2
 ```
 
-### Ideas We Want
+### Ideas We're Looking For
 
 - 🏢 Business document templates
 - 🔧 DevOps automation workflows
 - 📊 Data analysis prompts
+- 🎨 Creative writing assistance
+- 🌍 Multi-language support examples
 - 🔐 Security audit checklists
-- 🌍 Multi-language examples
+- 📱 Mobile app integration patterns
+
+### Code of Conduct
+
+Be respectful. Be helpful. Be awesome. 
+
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
 
 ---
 
 ## Community
 
-- 💬 **Discord**: [Join us](https://discord.com/invite/clawd)
+- 💬 **Discord**: [Join our community](https://discord.com/invite/clawd)
 - 📖 **Docs**: [docs.clawd.bot](https://docs.clawd.bot)
 - 🐙 **GitHub**: [clawdbot/clawdbot](https://github.com/clawdbot/clawdbot)
 - 🌐 **Skills Hub**: [clawdhub.com](https://clawdhub.com)
+
+---
+
+## License
+
+[![CC0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
+
+This list is released into the public domain. See [LICENSE](LICENSE) for details.
 
 ---
 
