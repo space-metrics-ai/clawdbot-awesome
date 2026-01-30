@@ -4,9 +4,9 @@
 
 <p align="center">
   <a href="#use-cases">Use Cases</a> •
+  <a href="#tutorials">Tutorials</a> •
   <a href="#workflows">Workflows</a> •
   <a href="#prompts">Prompts</a> •
-  <a href="#integrations">Integrations</a> •
   <a href="#contributing">Contributing</a>
 </p>
 
@@ -15,6 +15,8 @@
 ## Contents
 
 - [What is Clawdbot?](#what-is-clawdbot)
+- [Tutorials](#tutorials)
+  - [🎯 Complete Tutorial: Automated Jira Metrics Dashboard](#-complete-tutorial-automated-jira-metrics-dashboard)
 - [Use Cases](#use-cases)
   - [Engineering Metrics & Reports](#engineering-metrics--reports)
   - [Legal & Compliance Documents](#legal--compliance-documents)
@@ -43,6 +45,314 @@ Clawdbot is an open-source AI assistant framework that connects Claude (Anthropi
 - 🔒 Local-first, privacy-focused
 
 📚 [Official Documentation](https://docs.clawd.bot) | 💬 [Discord Community](https://discord.com/invite/clawd)
+
+---
+
+## Tutorials
+
+### 🎯 Complete Tutorial: Automated Jira Metrics Dashboard
+
+**Build an automated engineering metrics system that delivers daily reports to Slack with zero manual effort.**
+
+This tutorial walks you through creating a complete metrics automation like we use for our engineering squads. By the end, you'll have:
+
+- Automated daily/weekly reports delivered to Slack
+- Key engineering metrics (Throughput, Lead Time, Cycle Time, P75)
+- Energy investment tracking (Value vs Tech Debt vs Toil)
+- Proactive alerts for items exceeding cycle time thresholds
+- Business days calculation (excludes weekends)
+
+---
+
+#### 🎯 Objective
+
+Create an automated system that:
+1. Fetches data from Jira API
+2. Calculates engineering metrics
+3. Formats a professional report
+4. Delivers to a Slack channel on schedule
+5. Alerts about items taking too long
+
+---
+
+#### ✅ Advantages
+
+| Benefit | Description |
+|---------|-------------|
+| **Zero Manual Work** | Reports generate and deliver automatically |
+| **Data-Driven Decisions** | See trends, not just snapshots |
+| **Predictability** | P75 percentiles tell you what to promise stakeholders |
+| **Early Warning System** | Know when items are stuck before standup |
+| **Energy Visibility** | See if you're building value or fighting fires |
+| **Business Days** | Accurate cycle times excluding weekends |
+
+---
+
+#### 📋 Prerequisites
+
+- Clawdbot installed and running
+- Slack channel configured in Clawdbot
+- Jira account with API access
+- Python 3.x available
+
+---
+
+#### 🔧 Step 1: Get Your Jira API Token
+
+1. Go to [Atlassian API Tokens](https://id.atlassian.com/manage-profile/security/api-tokens)
+2. Click "Create API token"
+3. Name it (e.g., "Clawdbot Metrics")
+4. Copy the token (you won't see it again!)
+
+**What you need:**
+```
+JIRA_URL: https://your-company.atlassian.net
+EMAIL: your-email@company.com
+TOKEN: your-api-token-here
+BOARD_ID: 123  (find in your board URL)
+PROJECT_KEY: PROJ  (your project key)
+```
+
+---
+
+#### 🔧 Step 2: Create the Metrics Script
+
+Ask Clawdbot to create the script:
+
+```markdown
+Create a Python script that:
+
+1. Connects to Jira API at [YOUR_JIRA_URL]
+2. Fetches issues from board ID [YOUR_BOARD_ID]
+3. Calculates these metrics for the last 3 months, grouped by month:
+   - Throughput (items completed per week)
+   - Average Lead Time (created → done, in business days)
+   - Average Cycle Time (in progress → done, in business days)
+   - P75 Lead Time and P75 Cycle Time
+4. Separately tracks Issue type metrics (bugs)
+5. Calculates energy investment:
+   - Value: Stories with Epic (direct user value)
+   - Tech: Housekeeping tasks
+   - Toil: Bug fixes and maintenance
+6. Finds in-progress items exceeding P75 cycle time
+7. Outputs a formatted report for Slack
+
+Use these credentials:
+- Email: [YOUR_EMAIL]
+- API Token: [YOUR_TOKEN]
+
+Valid issue types: História, Issue, Task, Toil
+In-progress statuses: Doing, Review, Refining, Blocked
+
+Save to: scripts/jira_metrics.py
+Accept board key as command line argument (e.g., PROJ)
+```
+
+**What Clawdbot Creates:**
+
+A script that:
+- Uses only Python standard library (no pip install needed)
+- Handles pagination for large boards
+- Calculates business days (excludes weekends)
+- Classifies items by epic name patterns
+- Formats output for Slack markdown
+
+---
+
+#### 🔧 Step 3: Test the Script
+
+```bash
+python3 scripts/jira_metrics.py PROJ
+```
+
+**Expected Output:**
+
+```
+Squad Name (PROJ)
+`Data: 30/01/2025 17:45 (business days)`
+
+Metrics (Story, Issue, Task, Toil)
+```
+| Month    | Thrput/wk | AVG LT | AVG CT | P75 LT | P75 CT |
+|----------|-----------|--------|--------|--------|--------|
+| 2024-11  | 6.8       | 21.4d  | 3.1d   | 9d     | 4d     |
+| 2024-12  | 6.8       | 10.8d  | 5.8d   | 14d    | 10d    |
+| 2025-01  | 5.5       | 12.0d  | 5.4d   | 14d    | 8d     |
+|----------|-----------|--------|--------|--------|--------|
+| AVERAGE  | 6.3       | 14.9d  | 4.8d   | 14d    | 8d     |
+```
+
+Metrics (Issues)                                    Investment (%)
+```
+| Month   | Thrput/wk | P75 LT |    |  Month   | Value% | Tech% | Toil% |
+|---------|-----------|--------|    |----------|--------|-------|-------|
+| 2024-11 | 1.2       | 4d     |    | 2024-11  | 33.3%  | 40.7% | 25.9% |
+| 2024-12 | 1.2       | 2d     |    | 2024-12  | 51.9%  | 25.9% | 22.2% |
+| 2025-01 | 1.2       | 3d     |    | 2025-01  | 50.0%  | 18.2% | 31.8% |
+```
+
+> _The team can work on `6.3 items/week` in parallel and deliver in `8d` with 75% confidence_
+
+⚡ Items exceeding P75 Cycle Time (8d):
+🚨 `PROJ-123` [Doing] - 18d (225% of P75) - Feature implementation
+🚨 `PROJ-456` [Review] - 12d (150% of P75) - Bug fix
+
+---
+
+#### 🔧 Step 4: Create the Slack Channel
+
+1. Create a dedicated Slack channel (e.g., `#squad-metrics`)
+2. Get the channel ID:
+   - Open Slack in browser
+   - Go to your channel
+   - Channel ID is in the URL: `slack.com/.../**C0XXXXXXXX**`
+
+---
+
+#### 🔧 Step 5: Configure the Cron Job
+
+Ask Clawdbot to set up the scheduled job:
+
+```markdown
+Create a cron job with these settings:
+
+Name: jira-proj-metrics
+Schedule: Every weekday at 9:00 AM (America/Sao_Paulo timezone)
+Target Channel: #squad-metrics (channel ID: C0XXXXXXXX)
+
+Task: Execute the script and send output to Slack:
+python3 /path/to/scripts/jira_metrics.py PROJ
+
+Send the output exactly as returned, without modifications.
+```
+
+**What Clawdbot Configures:**
+
+```yaml
+name: jira-proj-metrics
+schedule:
+  kind: cron
+  expr: "0 9 * * 1-5"  # 9 AM, Monday-Friday
+  tz: "America/Sao_Paulo"
+sessionTarget: isolated
+payload:
+  kind: agentTurn
+  message: "Execute: python3 /path/to/scripts/jira_metrics.py PROJ\n\nSend the output exactly as returned."
+  deliver: true
+  channel: slack
+  to: "channel:C0XXXXXXXX"
+```
+
+---
+
+#### 🔧 Step 6: Set Up Multiple Squads (Optional)
+
+For multiple teams, create one cron job per squad:
+
+```markdown
+Create these cron jobs:
+
+1. Squad Alpha Metrics
+   - Name: jira-alpha-metrics
+   - Schedule: 9:00 AM weekdays
+   - Script: python3 scripts/jira_metrics.py ALPHA
+   - Target: #alpha-metrics (C0XXXXXXX1)
+
+2. Squad Beta Metrics
+   - Name: jira-beta-metrics
+   - Schedule: 9:00 AM weekdays
+   - Script: python3 scripts/jira_metrics.py BETA
+   - Target: #beta-metrics (C0XXXXXXX2)
+```
+
+---
+
+#### 📊 Understanding the Metrics
+
+| Metric | What It Measures | Why It Matters |
+|--------|------------------|----------------|
+| **Throughput** | Items completed per week | Team capacity and velocity |
+| **Lead Time** | Backlog → Done (business days) | How long customers wait |
+| **Cycle Time** | In Progress → Done (business days) | Active work time |
+| **P75** | 75th percentile | Predictable delivery promise |
+| **Value %** | Stories linked to Epics | Direct user value delivery |
+| **Tech %** | Housekeeping/refactoring | Technical health investment |
+| **Toil %** | Bug fixes and maintenance | Firefighting indicator |
+
+---
+
+#### 🚨 Understanding the Alerts
+
+The system automatically flags items that are taking too long:
+
+| Alert | Meaning | Action |
+|-------|---------|--------|
+| 🚨 **Red Alert** | >100% of P75 Cycle Time | Needs immediate attention |
+| ⚠️ **Warning** | 80-100% of P75 Cycle Time | Getting risky, check blockers |
+
+**Example:** If your P75 Cycle Time is 8 days, any item in progress for 8+ days gets a 🚨.
+
+---
+
+#### 💡 Pro Tips
+
+**1. Customize Classification**
+
+Adjust how items are classified by epic name patterns:
+
+```python
+# In your script
+if 'bugfixing' in epic_name or 'bugfix' in epic_name:
+    return 'Toil'
+if 'housekeeping' in epic_name or 'tech-debt' in epic_name:
+    return 'Tech'
+if issue_type == 'Story':
+    return 'Value'
+```
+
+**2. Adjust Time Windows**
+
+Change the lookback period:
+```python
+three_months_ago = datetime.now() - timedelta(days=90)  # Adjust as needed
+```
+
+**3. Add More Statuses**
+
+If your board has different status names:
+```python
+IN_PROGRESS_STATUSES = ['Doing', 'In Review', 'Testing', 'Blocked']
+```
+
+**4. Weekly Instead of Daily**
+
+Change schedule to Mondays only:
+```yaml
+schedule:
+  expr: "0 9 * * 1"  # Monday at 9 AM
+```
+
+---
+
+#### 🔄 Maintenance
+
+**Update credentials:** If your token expires, update the script and Clawdbot will use the new one automatically.
+
+**Add new boards:** Just create a new cron job with the new board key.
+
+**Disable temporarily:** Use `cron disable [job-name]` to pause without deleting.
+
+---
+
+#### 📈 Real Results
+
+After implementing this system, teams typically see:
+
+- **30 min/week saved** on manual reporting
+- **Earlier detection** of stuck items
+- **Better sprint planning** with P75 data
+- **Visibility** into value vs maintenance balance
+- **Data-driven retrospectives**
 
 ---
 
