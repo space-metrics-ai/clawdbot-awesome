@@ -315,6 +315,53 @@ Language: [English/Portuguese]
 
 Leverage Clawdbot's cron capabilities for scheduled tasks.
 
+#### Newsletter Digest (Daily Curated Reading)
+
+Automatically read, summarize, and rank newsletters every morning. Only sends when there's new content.
+
+**Prompt (one-shot setup):**
+
+```
+Read the latest content from these newsletters and create a daily digest:
+
+NEWSLETTERS:
+- https://newsletter.systemdesign.one
+- https://codingchallenges.substack.com
+- https://blog.algomaster.io
+- https://newsletter.eng-leadership.com
+- [ADD YOUR FAVORITES]
+
+RULES:
+- 3-line summary for each new article
+- Rank by relevance (🥇🥈🥉 for top 3)
+- Include link to full article
+- Only include content from last 24h
+- Skip if nothing new
+
+Create a cron job to run this daily at [09:15] and send to [#channel-name].
+Language: [Portuguese/English]
+```
+
+**Example Output:**
+
+📬 *Newsletter Digest* • 31/01/2026
+
+🥇 *System Design One* — _Message Queues explained with supermarket lines_
+Brilliant analogy for async messaging. Great for dev onboarding.
+🔗 https://newsletter.systemdesign.one/p/what-is-a-message-queue
+
+🥈 *Coding Challenges* — _Will AI Kill Coding?_
+Reflection on the future of software engineering with AI. Hot take.
+🔗 https://codingchallenges.substack.com/p/will-ai-kill-coding
+
+🥉 *.NET Architecture* — _Containers without Dockerfile_
+.NET SDK now publishes directly to containers. Zero Dockerfile.
+🔗 https://www.milanjovanovic.tech/blog/containerize-your-dotnet-applications-without-a-dockerfile
+
+📚 *+8 more* — AlgoMaster, Tech World, Engineering Leadership...
+
+---
+
 #### Daily Standup Reminder
 
 **Cron Setup:**
