@@ -1,561 +1,395 @@
 # Awesome Clawdbot [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 
-> A curated collection of awesome use cases, prompts, workflows, and resources for [Clawdbot](https://github.com/clawdbot/clawdbot) — your AI-powered personal assistant that connects Claude to everything.
+> A curated collection of use cases organized by role. Find your job, copy the prompt, done.
 
 <p align="center">
   <img src="https://docs.clawd.bot/assets/clawdbot-logo.png" alt="Clawdbot Logo" width="200">
 </p>
 
 <p align="center">
-  <a href="#use-cases">Use Cases</a> •
-  <a href="#workflows">Workflows</a> •
-  <a href="#prompts">Prompts</a> •
-  <a href="#integrations">Integrations</a> •
+  <a href="#-engineering-manager">Eng Manager</a> •
+  <a href="#-developer">Developer</a> •
+  <a href="#-product-manager">Product</a> •
+  <a href="#️-legal--compliance">Legal</a> •
+  <a href="#-founder--ceo">Founder</a> •
   <a href="#contributing">Contributing</a>
 </p>
 
 ---
 
-## Contents
-
-- [What is Clawdbot?](#what-is-clawdbot)
-- [Use Cases](#use-cases)
-  - [Legal & Compliance Documents](#legal--compliance-documents)
-  - [Code Review & Development](#code-review--development)
-  - [Documentation Generation](#documentation-generation)
-  - [Data Analysis & Reports](#data-analysis--reports)
-  - [Automation & Scheduling](#automation--scheduling)
-- [Workflows](#workflows)
-- [Prompts](#prompts)
-- [Integrations](#integrations)
-- [Tips & Best Practices](#tips--best-practices)
-- [Contributing](#contributing)
-- [Community](#community)
-- [License](#license)
-
----
-
 ## What is Clawdbot?
 
-Clawdbot is an open-source AI assistant framework that connects Claude (Anthropic's AI) to your tools, files, and services. It runs locally and supports multiple channels (Slack, Discord, Telegram, WhatsApp, Signal), integrations (GitHub, Jira, Notion), and automation capabilities.
+[Clawdbot](https://github.com/clawdbot/clawdbot) connects Claude to your tools. Slack, Jira, GitHub, Notion, Calendar — all in natural language.
 
-**Key Features:**
-- 🔌 Multi-channel messaging (Slack, Discord, Telegram, etc.)
-- 🛠️ Tool integration (GitHub, Jira, Notion, Calendar)
-- 🌐 Browser automation
-- ⏰ Cron jobs and scheduled tasks
-- 🧠 Persistent memory across sessions
-- 🔒 Local-first, privacy-focused
-
-📚 [Official Documentation](https://docs.clawd.bot) | 💬 [Discord Community](https://discord.com/invite/clawd)
+📚 [Docs](https://docs.clawd.bot) | 💬 [Discord](https://discord.com/invite/clawd) | 🌐 [Skills Hub](https://clawdhub.com)
 
 ---
 
-## Use Cases
+# Roles
 
-### Legal & Compliance Documents
+## 👨‍💼 Engineering Manager
 
-Generate comprehensive, legally-sound documents tailored to your product and jurisdiction.
+You lead teams, track metrics, and need to stay on top of everything without drowning in tools.
 
-#### Privacy Policy Generator
+### Engineering Metrics (Jira)
 
-Create GDPR/LGPD-compliant privacy policies that actually match your product's data practices.
+Get cycle time, lead time, throughput — just ask.
 
-**Prompt Template:**
-
-```markdown
-I need a Privacy Policy for my SaaS product with the following details:
-
-**Product Info:**
-- Name: [Your Product Name]
-- Type: [SaaS/Mobile App/Web Platform]
-- Industry: [Engineering Metrics/Healthcare/Finance/etc.]
-
-**Data Collection:**
-- Authentication method: [Google OAuth/Email-Password/SSO]
-- User data collected: [Name, Email, Profile Photo, etc.]
-- Third-party integrations: [GitHub, Jira, Linear, etc.]
-- Data collected from integrations: [Commits, PRs, Issues, etc.]
-
-**Infrastructure:**
-- Hosting provider: [AWS/GCP/Azure]
-- Database: [PostgreSQL/MongoDB/etc.]
-- Region: [US-East/EU-West/etc.]
-
-**Compliance Requirements:**
-- Jurisdictions: [Brazil (LGPD)/EU (GDPR)/California (CCPA)]
-- Role: [Data Controller/Data Processor/Both]
-
-Please generate a comprehensive Privacy Policy that:
-1. Clearly defines roles (Controller vs Processor)
-2. Lists all data collected with purposes and legal bases
-3. Explains data retention periods
-4. Details security measures
-5. Covers international data transfers
-6. Includes all required rights (access, deletion, portability)
-7. Provides contact information templates
-```
-
-**What You Get:**
-- Complete Privacy Policy (15-20 pages)
-- Data flow tables with legal bases
-- Retention schedule
-- Subprocessor list template
-- Security measures documentation
-- User rights procedures
-
-#### Terms of Service Generator
-
-**Prompt Template:**
-
-```markdown
-I need Terms of Service for my SaaS product:
-
-**Product Info:**
-- Name: [Your Product Name]
-- Service Model: [SaaS B2B/B2C/Marketplace]
-- Pricing Model: [Subscription/Usage-based/Freemium]
-
-**Key Features to Cover:**
-- [Feature 1]: [Brief description]
-- [Feature 2]: [Brief description]
-- Third-party integrations: [List them]
-
-**Business Requirements:**
-- Liability cap: [12 months fees / fixed amount]
-- SLA target: [99.5% / 99.9%]
-- Support channels: [Email/Chat/Phone]
-- Jurisdiction: [São Paulo, Brazil / Delaware, USA]
-
-**Special Clauses Needed:**
-- [ ] Acceptable use policy
-- [ ] API usage limits
-- [ ] Data ownership clarification
-- [ ] Intellectual property protection
-- [ ] Indemnification clauses
-
-Please generate comprehensive Terms of Service including all standard sections.
-```
-
----
-
-### Code Review & Development
-
-Leverage Clawdbot's GitHub integration for intelligent code assistance.
-
-#### Automated PR Review
-
-**Setup:**
-1. Connect GitHub via Clawdbot skills
-2. Configure webhook or polling
-
-**Prompt Template:**
-
-```markdown
-Review this Pull Request:
-- Repository: [owner/repo]
-- PR Number: [#123]
-
-Focus on:
-- [ ] Security vulnerabilities
-- [ ] Performance implications
-- [ ] Code style consistency
-- [ ] Test coverage
-- [ ] Documentation updates needed
-
-Provide actionable feedback with code suggestions.
-```
-
-#### Architecture Decision Records (ADR)
-
-**Prompt Template:**
-
-```markdown
-Create an Architecture Decision Record for:
-
-**Context:**
-[Describe the current situation and why a decision is needed]
-
-**Decision Drivers:**
-- [Driver 1]
-- [Driver 2]
-
-**Options Considered:**
-1. [Option A]
-2. [Option B]
-3. [Option C]
-
-**Constraints:**
-- Timeline: [X weeks]
-- Budget: [If applicable]
-- Team expertise: [Relevant skills]
-
-Generate a complete ADR following the Michael Nygard format.
-```
-
----
-
-### Documentation Generation
-
-Create and maintain comprehensive documentation automatically.
-
-#### API Documentation
-
-**Prompt Template:**
-
-```markdown
-Generate API documentation for my REST endpoints:
-
-**Base URL:** https://api.example.com/v1
-
-**Authentication:** Bearer token (JWT)
-
-**Endpoints to document:**
-1. POST /users - Create user
-2. GET /users/{id} - Get user by ID
-3. PUT /users/{id} - Update user
-4. DELETE /users/{id} - Delete user
-
-For each endpoint, include:
-- Description
-- Request/Response examples
-- Error codes
-- Rate limits
-- Code samples (curl, JavaScript, Python)
-
-Use OpenAPI 3.0 format.
-```
-
-#### README Generator
-
-**Prompt Template:**
-
-```markdown
-Create a README.md for my project:
-
-**Project Info:**
-- Name: [Project Name]
-- Language: [Python/TypeScript/Go/etc.]
-- Type: [CLI Tool/Library/Web App]
-- License: [MIT/Apache-2.0/etc.]
-
-**Key Features:**
-- [Feature 1]
-- [Feature 2]
-- [Feature 3]
-
-**Installation Methods:**
-- npm/pip/brew/docker
-
-**Include:**
-- Badges (build status, coverage, version)
-- Quick start guide
-- Configuration options
-- Contributing guidelines link
-- Changelog link
-```
-
----
-
-### Data Analysis & Reports
-
-#### Engineering Metrics Dashboard (Jira)
-
-The simplest way to get engineering metrics. Just ask.
-
-**Step 1:** Add your Jira credentials to `TOOLS.md`:
-
+**Setup:** Add to your `TOOLS.md`:
 ```markdown
 ## Jira
-
 - **Instance:** https://YOUR-INSTANCE.atlassian.net
 - **Email:** your-email@company.com
-- **API Token:** your-api-token (get it at https://id.atlassian.com/manage-profile/security/api-tokens)
-- **Project:** YOUR_PROJECT_KEY
+- **API Token:** your-token
+- **Project:** PROJECT_KEY
 - **Board ID:** 123
 ```
 
-**Step 2:** Copy, paste, customize:
-
+**Prompt:**
 ```
-Connect to my Jira (credentials in TOOLS.md) and give me the engineering metrics for project [PROJECT_KEY] from the last [7/14/30] days.
+Connect to my Jira (credentials in TOOLS.md) and give me engineering metrics 
+for project [PROJECT_KEY] from the last [7/14/30] days.
 
-Include: cycle time, lead time, throughput, bugs vs features ratio, and WIP.
-
-Language: [English/Portuguese/Spanish]
+Include: cycle time, lead time, throughput, bugs vs features ratio, WIP.
+Language: [Portuguese/English]
 ```
-
-That's it. Clawdbot handles the API calls, calculations, and formatting automatically.
-
-**Example Output:**
-- 📊 Cycle Time: 3.2 days (median)
-- 🚀 Throughput: 12 stories/week
-- 🐛 Bug ratio: 18% of completed items
-- ⏱️ Lead Time: 5.1 days
-- 📋 WIP: 8 items in progress
 
 ---
 
-#### Weekly Status Report
+### Newsletter Digest (Stay Updated)
+
+Daily curated reading from tech newsletters. Summarized, ranked, delivered.
+
+**Prompt:**
+```
+Read the latest from these newsletters and create a daily digest:
+
+- https://newsletter.systemdesign.one
+- https://codingchallenges.substack.com  
+- https://blog.algomaster.io
+- https://newsletter.eng-leadership.com
+- [ADD YOUR FAVORITES]
+
+Rules:
+- 3-line summary per article
+- Rank top 3 (🥇🥈🥉)
+- Only send if there's new content
+- Include links
+
+Create a cron job: daily at 09:15 → send to #[channel]
+Language: [Portuguese/English]
+```
+
+---
+
+### Weekly Status Report
 
 ```
 Generate a weekly status report for my team.
 
 Check:
 - Jira board [BOARD_ID]: completed, in progress, blocked
-- GitHub repos: [owner/repo1, owner/repo2]
+- GitHub repos: [owner/repo]
 
 Period: last 7 days
-Language: [English/Portuguese]
-```
-
----
-
-### Automation & Scheduling
-
-Leverage Clawdbot's cron capabilities for scheduled tasks.
-
-#### Newsletter Digest (Daily Curated Reading)
-
-Automatically read, summarize, and rank newsletters every morning. Only sends when there's new content.
-
-**Prompt (one-shot setup):**
-
-```
-Read the latest content from these newsletters and create a daily digest:
-
-NEWSLETTERS:
-- https://newsletter.systemdesign.one
-- https://codingchallenges.substack.com
-- https://blog.algomaster.io
-- https://newsletter.eng-leadership.com
-- [ADD YOUR FAVORITES]
-
-RULES:
-- 3-line summary for each new article
-- Rank by relevance (🥇🥈🥉 for top 3)
-- Include link to full article
-- Only include content from last 24h
-- Skip if nothing new
-
-Create a cron job to run this daily at [09:15] and send to [#channel-name].
+Format: executive summary + details
 Language: [Portuguese/English]
 ```
 
-**Example Output:**
-
-📬 *Newsletter Digest* • 31/01/2026
-
-🥇 *System Design One* — _Message Queues explained with supermarket lines_
-Brilliant analogy for async messaging. Great for dev onboarding.
-🔗 https://newsletter.systemdesign.one/p/what-is-a-message-queue
-
-🥈 *Coding Challenges* — _Will AI Kill Coding?_
-Reflection on the future of software engineering with AI. Hot take.
-🔗 https://codingchallenges.substack.com/p/will-ai-kill-coding
-
-🥉 *.NET Architecture* — _Containers without Dockerfile_
-.NET SDK now publishes directly to containers. Zero Dockerfile.
-🔗 https://www.milanjovanovic.tech/blog/containerize-your-dotnet-applications-without-a-dockerfile
-
-📚 *+8 more* — AlgoMaster, Tech World, Engineering Leadership...
-
 ---
 
-#### Daily Standup Reminder
+### 1:1 Prep
 
-**Cron Setup:**
-
-```yaml
-# In your Clawdbot config or via cron tool
-schedule: "0 9 * * 1-5"  # 9 AM, Monday-Friday
-task: |
-  Check Jira for my in-progress tickets and yesterday's completions.
-  Send a formatted standup update to #team-standup channel:
-  - What I completed yesterday
-  - What I'm working on today
-  - Any blockers
 ```
+Prepare my 1:1 with [DEV_NAME].
 
-#### Inbox Zero Assistant
+Check:
+- Their recent commits and PRs in [repos]
+- Jira tickets they worked on (last 2 weeks)
+- Any blockers or delays
 
-**Heartbeat Task:**
-
-```markdown
-# HEARTBEAT.md
-- Check for urgent unread emails (last 2 hours)
-- Summarize any requiring immediate attention
-- Draft quick replies for simple requests
-- Flag items needing deep focus time
+Generate talking points and questions to ask.
 ```
 
 ---
 
-## Workflows
+## 🧑‍💻 Developer
 
-### Multi-Step Document Generation
+You write code, review PRs, and want to automate the boring stuff.
 
-```mermaid
-graph LR
-    A[User Request] --> B[Gather Context]
-    B --> C[Generate Draft]
-    C --> D[Review & Iterate]
-    D --> E[Export Final]
-    E --> F[Save to Git/Notion]
+### PR Review
+
+```
+Review this Pull Request:
+- Repository: [owner/repo]
+- PR Number: #[NUMBER]
+
+Focus on:
+- Security vulnerabilities
+- Performance implications  
+- Code style consistency
+- Missing tests
+
+Provide actionable feedback with code suggestions.
 ```
 
-### Automated Compliance Audit
-
-1. **Trigger**: Monthly cron job
-2. **Scan**: Check all data flows against policy
-3. **Report**: Generate compliance checklist
-4. **Alert**: Notify team of any gaps
-5. **Track**: Update compliance dashboard
-
 ---
 
-## Prompts
+### Debug Assistant
 
-### Quick Prompts Collection
+```
+Help me debug this error:
 
-| Task | Prompt |
-|------|--------|
-| Summarize meeting | "Summarize the key decisions and action items from [meeting notes]" |
-| Code explanation | "Explain this code like I'm a junior developer: [code]" |
-| Bug investigation | "Help me debug this error: [error message]. Here's the relevant code: [code]" |
-| Email drafting | "Draft a professional email to [recipient] about [topic]. Tone: [formal/friendly]" |
-| Commit message | "Write a conventional commit message for these changes: [diff summary]" |
+Error: [PASTE ERROR MESSAGE]
 
----
+Code:
+[PASTE RELEVANT CODE]
 
-## Integrations
-
-### Recommended Skill Combinations
-
-| Use Case | Skills Needed |
-|----------|---------------|
-| Full DevOps | GitHub + Jira + Slack |
-| Documentation | Notion + GitHub |
-| Personal Assistant | Calendar + Email + Weather |
-| Team Management | Slack + Jira + GitHub |
-
-### Custom Skill Development
-
-Create your own skills following the [Skill Creator Guide](https://docs.clawd.bot/skills/creating-skills).
-
----
-
-## Tips & Best Practices
-
-### 1. Be Specific with Context
-
-❌ "Write me a privacy policy"
-
-✅ "Write a privacy policy for a B2B SaaS that collects user emails via Google OAuth, stores data in AWS US-East, and needs LGPD compliance"
-
-### 2. Use Memory Effectively
-
-- Store project context in `MEMORY.md`
-- Keep daily notes in `memory/YYYY-MM-DD.md`
-- Reference previous work: "Using the same format as the ToS we created..."
-
-### 3. Leverage File Operations
-
-```markdown
-Read the existing document at ./docs/privacy.md and update it to:
-1. Add a new data type we're collecting: [type]
-2. Update the retention period for [category] to [X days]
-3. Add [New Subprocessor] to the subprocessor list
+Context: [What you were trying to do]
 ```
 
-### 4. Chain Complex Tasks
+---
 
-```markdown
+### Architecture Decision Record (ADR)
+
+```
+Create an ADR for:
+
+Context: [Why we need to decide something]
+
+Options:
+1. [Option A]
+2. [Option B]
+3. [Option C]
+
+Constraints: [Timeline, budget, team skills]
+
+Use Michael Nygard format.
+```
+
+---
+
+### Commit Message
+
+```
+Write a conventional commit message for these changes:
+
+[PASTE DIFF OR DESCRIBE CHANGES]
+```
+
+---
+
+## 📋 Product Manager
+
+You write specs, coordinate launches, and communicate with everyone.
+
+### Feature Spec
+
+```
+Write a feature specification for:
+
+Feature: [FEATURE NAME]
+Problem: [What problem it solves]
+Users: [Who will use it]
+
+Include:
+- User stories
+- Acceptance criteria
+- Edge cases
+- Success metrics
+```
+
+---
+
+### Release Notes
+
+```
+Generate release notes for version [X.Y.Z].
+
+Changes:
+- [List of changes or point to commits/PRs]
+
+Audience: [Internal team / Customers / Both]
+Tone: [Technical / Friendly / Marketing]
+```
+
+---
+
+### Stakeholder Update
+
+```
+Write a stakeholder update for [PROJECT_NAME].
+
+Include:
+- Progress this week
+- Key decisions made
+- Risks and blockers
+- Next steps
+
+Tone: Professional but concise
+```
+
+---
+
+## ⚖️ Legal / Compliance
+
+You need documents that actually match what the product does.
+
+### Privacy Policy
+
+```
+Generate a Privacy Policy for my product:
+
+Product: [NAME] - [DESCRIPTION]
+Data collected: [List data types]
+Auth method: [Google OAuth / Email / SSO]
+Integrations: [GitHub, Jira, etc.]
+Hosting: [AWS/GCP] in [REGION]
+Compliance: [LGPD / GDPR / CCPA]
+
+Include data flow tables and retention periods.
+```
+
+---
+
+### Terms of Service
+
+```
+Generate Terms of Service for:
+
+Product: [NAME]
+Model: [SaaS B2B / B2C / Marketplace]
+Pricing: [Subscription / Usage-based / Free]
+
+Include:
+- Acceptable use policy
+- Liability limitations
+- Data ownership
+- SLA: [99.5% / 99.9%]
+- Jurisdiction: [São Paulo / Delaware]
+```
+
+---
+
+## 🎯 Founder / CEO
+
+You need the big picture, fast.
+
+### Company Metrics Dashboard
+
+```
+Give me a company health overview:
+
+Check:
+- Jira: velocity trends across all projects
+- GitHub: commit activity, PR merge time
+- [Add other data sources]
+
+Period: Last 30 days
+Compare to previous period
+Highlight anomalies
+```
+
+---
+
+### Board Update Draft
+
+```
+Draft a board update for [MONTH/QUARTER]:
+
+Include:
+- Key metrics (ARR, users, growth)
+- Major milestones achieved
+- Challenges faced
+- Strategic priorities next quarter
+- Ask for the board
+
+Tone: Confident but transparent
+Length: 1 page
+```
+
+---
+
+### Investor Email
+
+```
+Draft an investor update email:
+
+Highlights:
+- [KEY WIN 1]
+- [KEY WIN 2]
+
+Metrics:
+- [METRIC 1]: [VALUE]
+- [METRIC 2]: [VALUE]
+
+Challenges: [Be honest]
+Next milestones: [What's coming]
+
+Tone: Founder-to-investor (warm, direct)
+```
+
+---
+
+# Tips & Best Practices
+
+### Be Specific
+
+❌ `Write me a privacy policy`
+
+✅ `Write a privacy policy for a B2B SaaS that collects emails via Google OAuth, stores in AWS US-East, needs LGPD compliance`
+
+### Use Memory
+
+- Store context in `MEMORY.md`
+- Reference previous work: *"Using the same format as the ToS we created..."*
+
+### Chain Tasks
+
+```
 Let's do this in steps:
-1. First, read our current API documentation
-2. Then, scan our codebase for new endpoints
-3. Generate documentation for any undocumented endpoints
-4. Create a PR with the updates
+1. First, read our current docs
+2. Find gaps
+3. Generate missing sections
+4. Create a PR
 ```
-
-### 5. Use Structured Output
-
-Request specific formats when needed:
-- "Output as a markdown table"
-- "Use JSON format for the config"
-- "Create a Mermaid diagram"
 
 ---
 
-## Contributing
+# Contributing
 
-We love contributions! This list is community-driven.
+Add your use cases! This is community-driven.
 
-### How to Contribute
+1. **Fork** this repo
+2. **Add** your prompt under the right role
+3. **Include** a real example (sanitized)
+4. **Submit** a PR
 
-1. **Fork** this repository
-2. **Add** your use case, prompt, or workflow
-3. **Follow** the format of existing entries
-4. **Submit** a Pull Request
-
-### Contribution Guidelines
-
-- **One item per PR** (unless closely related)
-- **Include a real example** when possible (sanitized of personal data)
-- **Test your prompts** with Clawdbot before submitting
-- **Use English** for all contributions
-- **Follow the format**:
+### Format
 
 ```markdown
-#### Your Use Case Title
+### Your Use Case Title
 
-Brief description of what this achieves.
+Brief description.
 
-**Prompt Template:**
-
-\`\`\`markdown
-Your prompt here with [PLACEHOLDERS] for customization
+**Prompt:**
 \`\`\`
-
-**What You Get:**
-- Expected output 1
-- Expected output 2
+Your prompt with [PLACEHOLDERS]
+\`\`\`
 ```
 
-### Ideas We're Looking For
-
-- 🏢 Business document templates
-- 🔧 DevOps automation workflows
-- 📊 Data analysis prompts
-- 🎨 Creative writing assistance
-- 🌍 Multi-language support examples
-- 🔐 Security audit checklists
-- 📱 Mobile app integration patterns
-
-### Code of Conduct
-
-Be respectful. Be helpful. Be awesome. 
-
-See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for details.
-
 ---
 
-## Community
+# Community
 
-- 💬 **Discord**: [Join our community](https://discord.com/invite/clawd)
-- 📖 **Docs**: [docs.clawd.bot](https://docs.clawd.bot)
-- 🐙 **GitHub**: [clawdbot/clawdbot](https://github.com/clawdbot/clawdbot)
-- 🌐 **Skills Hub**: [clawdhub.com](https://clawdhub.com)
+- 💬 [Discord](https://discord.com/invite/clawd)
+- 📖 [Docs](https://docs.clawd.bot)
+- 🐙 [GitHub](https://github.com/clawdbot/clawdbot)
+- 🌐 [Skills Hub](https://clawdhub.com)
 
 ---
-
-## License
 
 [![CC0](https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/cc-zero.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
-
-This list is released into the public domain. See [LICENSE](LICENSE) for details.
-
----
 
 <p align="center">
   <sub>Built with 🤖 by the Clawdbot community</sub>
