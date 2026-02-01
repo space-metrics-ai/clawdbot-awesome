@@ -18,9 +18,9 @@
 
 ---
 
-## What is Clawdbot?
+## What is OpenClaw?
 
-[Clawdbot](https://github.com/clawdbot/clawdbot) connects Claude to your tools. Slack, Jira, GitHub, Notion, Calendar — all in natural language.
+[OpenClaw](https://github.com/openclaw/openclaw) connects Claude to your tools. Slack, Jira, GitHub, Notion, Calendar — all in natural language.
 
 📚 [Docs](https://docs.clawd.bot) | 💬 [Discord](https://discord.com/invite/clawd) | 🌐 [Skills Hub](https://clawdhub.com)
 
@@ -28,33 +28,104 @@
 
 ## 🚀 Getting Started
 
-### 1. Install Clawdbot
+### Prerequisites
 
-```bash
-# Clone the repository
-git clone https://github.com/clawdbot/clawdbot.git
-cd clawdbot
+- **Node.js** version 22 or higher
+- **Claude Pro/Max** subscription (recommended for Opus 4.5)
+- **Slack workspace** with admin permissions
 
-# Install dependencies
-npm install
+---
 
-# Configure your environment
-cp .env.example .env
+### Step 1: Set Up Your Environment (WSL2/Ubuntu)
+
+If you're on Windows, first install WSL2:
+
+```powershell
+# Run in PowerShell as Administrator
+wsl --install -d Ubuntu
 ```
 
-### 2. Connect to Slack
-
-Add your Slack credentials to `.env`:
+After restart, open Ubuntu terminal and update:
 
 ```bash
-SLACK_BOT_TOKEN=xoxb-your-bot-token
-SLACK_APP_TOKEN=xapp-your-app-token
-SLACK_SIGNING_SECRET=your-signing-secret
+# Update system packages
+sudo apt update && sudo apt upgrade -y
+
+# Install Node.js 22 via nvm (recommended)
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+source ~/.bashrc
+nvm install 22
+nvm use 22
+
+# Verify installation
+node --version  # Should show v22.x.x
 ```
 
-### 3. Configure Your Tools
+---
 
-Create a `TOOLS.md` file with your integrations:
+### Step 2: Install OpenClaw
+
+```bash
+# Install globally
+npm install -g openclaw@latest
+
+# Run the onboarding wizard (this configures everything)
+openclaw onboard --install-daemon
+```
+
+The wizard will guide you through:
+- Gateway configuration
+- Workspace setup
+- Channel connections (Slack, Discord, etc.)
+- Skills installation
+
+---
+
+### Step 3: Configure Slack Channel
+
+During onboarding, select **Slack** as your channel. You'll need:
+
+1. **Create a Slack App** at [api.slack.com/apps](https://api.slack.com/apps)
+2. **Enable Socket Mode** (Settings > Socket Mode > Enable)
+3. **Add Bot Scopes** (OAuth & Permissions):
+   - `app_mentions:read`
+   - `channels:history`
+   - `channels:read`
+   - `chat:write`
+   - `groups:history`
+   - `groups:read`
+   - `im:history`
+   - `im:read`
+   - `im:write`
+4. **Enable Events** (Event Subscriptions):
+   - `app_mention`
+   - `message.channels`
+   - `message.groups`
+   - `message.im`
+5. **Install to Workspace** and copy your tokens
+
+Add tokens to your config (`~/.openclaw/openclaw.json`):
+
+```json
+{
+  "agent": {
+    "model": "anthropic/claude-opus-4-5"
+  },
+  "channels": {
+    "slack": {
+      "botToken": "xoxb-your-bot-token",
+      "appToken": "xapp-your-app-token",
+      "signingSecret": "your-signing-secret"
+    }
+  }
+}
+```
+
+---
+
+### Step 4: Configure Your Tools
+
+Create a `TOOLS.md` file in your workspace with your integrations:
 
 ```markdown
 ## Jira
@@ -68,15 +139,60 @@ Create a `TOOLS.md` file with your integrations:
 - **Org:** your-org
 ```
 
-### 4. Start the Bot
+---
+
+### Step 5: Start the Gateway
 
 ```bash
-npm start
+# Start in verbose mode to see what's happening
+openclaw gateway --port 18789 --verbose
 ```
 
-### 5. Use It!
+Keep this terminal running. OpenClaw is now listening for messages.
 
-Just mention `@clawdbot` in any Slack channel with your prompt.
+---
+
+### Step 6: Invite and Use!
+
+1. **Invite the bot** to your Slack channel: `/invite @YourBotName`
+2. **Mention it** with your prompt: `@YourBotName give me engineering metrics for PROJ`
+
+---
+
+### Running as a Background Service (Optional)
+
+To keep OpenClaw running even after closing the terminal:
+
+```bash
+# Using systemd (Linux/WSL2)
+sudo nano /etc/systemd/system/openclaw.service
+```
+
+Add:
+
+```ini
+[Unit]
+Description=OpenClaw Gateway
+After=network.target
+
+[Service]
+Type=simple
+User=YOUR_USERNAME
+ExecStart=/home/YOUR_USERNAME/.nvm/versions/node/v22.0.0/bin/openclaw gateway --port 18789
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+
+```bash
+sudo systemctl enable openclaw
+sudo systemctl start openclaw
+sudo systemctl status openclaw  # Check if running
+```
 
 ---
 
@@ -568,7 +684,7 @@ Your prompt with [PLACEHOLDERS]
 
 - 💬 [Discord](https://discord.com/invite/clawd)
 - 📖 [Docs](https://docs.clawd.bot)
-- 🐙 [GitHub](https://github.com/clawdbot/clawdbot)
+- 🐙 [GitHub](https://github.com/openclaw/openclaw)
 - 🌐 [Skills Hub](https://clawdhub.com)
 
 ---
